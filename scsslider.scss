@@ -1,4 +1,9 @@
-@mixin scsslider($slide-animation-time, $delay, $image-urls) {
+@mixin scsslider(
+  $image-urls,
+  $slide-animation-time: 2,
+  $delay: 2,
+  $timing-function: ease
+) {
   $number-of-slides: length($image-urls);
   $total-animation-time: ($slide-animation-time + $delay) * $number-of-slides;
 
@@ -6,7 +11,8 @@
   $slider-id: random($max);
 
   & {
-    animation: (scsslider- + $slider-id) ($total-animation-time + s) infinite;
+    animation: (scsslider- + $slider-id) ($total-animation-time + s)
+      $timing-function infinite;
   }
 
   @keyframes scsslider-#{$slider-id} {
