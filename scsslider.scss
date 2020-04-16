@@ -2,11 +2,14 @@
   $number-of-slides: length($image-urls);
   $total-animation-time: ($slide-animation-time + $delay) * $number-of-slides;
 
+  $max: 10000;
+  $slider-id: random($max);
+
   & {
-    animation: bg-slider ($total-animation-time + s) infinite;
+    animation: (scsslider- + $slider-id) ($total-animation-time + s) infinite;
   }
 
-  @keyframes scsslider {
+  @keyframes scsslider-#{$slider-id} {
     $delay-percent: ($delay / $total-animation-time) * 100;
     $slide-animation-percent: ($slide-animation-time / $total-animation-time) *
       100;
