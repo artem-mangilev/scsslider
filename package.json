@@ -1,0 +1,16 @@
+{
+  "name": "scsslider",
+  "version": "1.0.0",
+  "description": "Simple image slider written in SCSS",
+  "main": "scsslider.scss",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artem-mangilev/scsslider.git"
+  },
+  "author": "Artem Mangilev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/artem-mangilev/scsslider/issues"
+  },
+  "homepage": "https://github.com/artem-mangilev/scsslider#readme"
+}

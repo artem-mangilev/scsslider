@@ -1,0 +1,31 @@
+@mixin scsslider($slide-animation-time, $delay, $image-urls) {
+  $number-of-slides: length($image-urls);
+  $total-animation-time: ($slide-animation-time + $delay) * $number-of-slides;
+
+  & {
+    animation: bg-slider ($total-animation-time + s) infinite;
+  }
+
+  @keyframes scsslider {
+    $delay-percent: ($delay / $total-animation-time) * 100;
+    $slide-animation-percent: ($slide-animation-time / $total-animation-time) *
+      100;
+
+    $current: 0;
+
+    @each $url in $image-urls {
+      #{$current}%,
+      #{$current + $delay-percent}% {
+        background-image: url($url);
+      }
+
+      $current: $current + $delay-percent + $slide-animation-percent;
+    }
+
+    100% {
+      $firstUrl: nth($image-urls, 1);
+
+      background-image: url($firstUrl);
+    }
+  }
+}
