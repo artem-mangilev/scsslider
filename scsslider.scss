@@ -1,9 +1,13 @@
 @mixin scsslider(
   $image-urls,
-  $slide-animation-time: 2,
-  $delay: 2,
-  $timing-function: ease
+  $slide-animation-time: 3,
+  $delay: 3,
+  $timing-function: ease-in-out
 ) {
+  @if ($timing-function != ease-in-out) {
+    @error 'Only the ease-in-out timing function is supported';
+  }
+
   $number-of-slides: length($image-urls);
   $total-animation-time: ($slide-animation-time + $delay) * $number-of-slides;
 
@@ -11,30 +15,69 @@
   $slider-id: random($max);
 
   & {
-    animation: (scsslider- + $slider-id) ($total-animation-time + s)
-      $timing-function infinite;
+    position: relative;
+
+    & > .slider-content {
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    & > .slides-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      & > .slide {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-repeat: none;
+        filter: opacity(0);
+        animation: (scsslider- + $slider-id) ($total-animation-time + s)
+          $timing-function infinite;
+
+        $currentDelay: 0;
+        @each $url in $image-urls {
+          $index: index($image-urls, $url);
+          &:nth-child(#{$index}) {
+            background-image: url($url);
+            animation-delay: $currentDelay + s;
+            $currentDelay: $currentDelay + ($slide-animation-time + $delay);
+          }
+        }
+      }
+    }
   }
 
+  $fade-in-percent: ($slide-animation-time / $total-animation-time) * 100;
+  $delay-percent: $fade-in-percent + (($delay / $total-animation-time) * 100);
+  $fade-out-percent: $delay-percent + $fade-in-percent;
   @keyframes scsslider-#{$slider-id} {
-    $delay-percent: ($delay / $total-animation-time) * 100;
-    $slide-animation-percent: ($slide-animation-time / $total-animation-time) *
-      100;
+    0% {
+      filter: opacity(0);
+      animation-timing-function: ease-in;
+    }
 
-    $current: 0;
+    #{$fade-in-percent}% {
+      filter: opacity(1);
+      animation-timing-function: ease-out;
+    }
 
-    @each $url in $image-urls {
-      #{$current}%,
-      #{$current + $delay-percent}% {
-        background-image: url($url);
-      }
+    #{$delay-percent}% {
+      filter: opacity(1);
+    }
 
-      $current: $current + $delay-percent + $slide-animation-percent;
+    #{$fade-out-percent}% {
+      filter: opacity(0);
     }
 
     100% {
-      $firstUrl: nth($image-urls, 1);
-
-      background-image: url($firstUrl);
+      filter: opacity(0);
     }
   }
 }
