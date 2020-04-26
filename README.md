@@ -44,7 +44,7 @@ npm i scsslider
     .slide
 ```
 
-Here it the way to initialize `scsslider` from scss:
+Here is the way to initialize `scsslider` from scss:
 
 ```scss
 @import "~scsslider"
@@ -72,5 +72,5 @@ You could play around with other options [here](https://codepen.io/artem-mangile
 
 ## Future plans
 
-- If it possible, unbind a number of images urls from a number of .slide elements.
-- Add support for <img>
+- If it possible, unbind a number of images urls from a number of `.slide` elements.
+- Add support for `<img>`
